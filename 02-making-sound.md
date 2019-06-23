@@ -1,3 +1,4 @@
+##  Making Sound
 
 Functions are used to make sound in SC. Execute the line below and, when you want it to stop, just type `Command+.`.
 
