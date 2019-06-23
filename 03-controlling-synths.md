@@ -28,7 +28,7 @@ f = { | a, b|
 So one can declare arguments for a function in one of two manners:
 
 1. `arg nameofargument1, nameofargument2;`
-2. `| nameofargument1, nameofargument2|`
+2. `|nameofargument1, nameofargument2|`
 
 While this may sound esoteric, it's important to understand that many aspects of Supercollider, like `arguments`, allow a programmer multiple stylistic options in terms of how they write their code.
 
