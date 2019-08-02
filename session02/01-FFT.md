@@ -1,6 +1,6 @@
 ### FFT
 
-The Fast Fourier Transform (often abbreviated as FFT) is an important technique in computer music. It provides an efficient way to transform between teh time domain (amplitude-time waveforms) and the frequency domain (spectrum, or the phase and energy of component frequencies).
+The Fast Fourier Transform (often abbreviated as FFT) provides an efficient way to transform between teh time domain (amplitude-time waveforms) and the frequency domain (spectrum, or the phase and energy of component frequencies).
 
 ### FFT in SC
 
