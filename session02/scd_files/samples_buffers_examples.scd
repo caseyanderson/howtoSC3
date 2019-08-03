@@ -112,4 +112,3 @@ SynthDef(\play, { | amp = 0.0, buf, len = 5.0, start = 0, trig = 1 |
 
 ~playMe = ~sample_player.play;
 ~playMe.stop;
-
