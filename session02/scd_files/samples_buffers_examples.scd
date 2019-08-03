@@ -6,17 +6,17 @@ s.boot;
 ~buf1 = Buffer.read(s, "/Users/cta/Desktop/haiti_baptism.wav", action: { "~buf1 loaded".postln; }); // read a sample into a buffer
 
 (
-SynthDef(\playS, { | amp = 0.0, buf, rate = 1, trig = 0 |
+SynthDef(\playS, { | amp = 0.0, buf, len, rate = 1, trig = 0 |
 	var env, sig;
 
-	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig );
-	sig = PlayBuf.ar(2, buf, rate, loop: 0, doneAction: 2) * env; // num channels needs to match Buffer (and HAS to be hard coded)
+	env = EnvGen.kr(Env.linen(0.0, len - 0.05, 0.05), trig, doneAction: 2);
+	sig = PlayBuf.ar(2, buf, rate, loop: 0) * env; // num channels needs to match Buffer (and HAS to be hard coded)
 	Out.ar(0, sig * amp);
 }).add;
 )
 
-Synth(\playS, [\amp, 0.9, \buf, ~buf1, \trig, 1 ]); // play once, dont loop
-Synth(\playS, [\amp, 0.5, \buf, ~buf1, \rate, 0.5, \trig, 1 ]); // play once half speed
+Synth(\playS, [\amp, 0.9, \buf, ~buf1, \len, ~buf1.duration, \trig, 1 ]); // play once, dont loop
+Synth(\playS, [\amp, 0.9, \buf, ~buf1, \len, ~buf1.duration, \rate, 0.5, \trig, 1 ]); // play once half speed
 
 
 /////////
@@ -52,16 +52,27 @@ Synth(\playS, [\amp, 0.5, \buf, ~buf1, \rate, 0.5, \trig, 1 ]); // play once hal
 
 // test it out
 
-SynthDef(\playM, { | amp = 0.0, buf, trig = 0 |
+SynthDef(\playM, { | amp = 0.0, buf, len, trig = 0 |
 	var env, sig;
 
-	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig );
-	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), loop: 0, doneAction: 2) * env;
+	env = EnvGen.kr(Env.linen(0.0, len - 0.05, 0.05), trig, doneAction: 2);
+	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), loop: 0) * env;
 	Out.ar(0, Pan2.ar(sig * amp, 0.0));
 }).add;
 
 // randomly select a sample to play from ~buffers
-Synth.new(\playM, [\amp, 0.5, \buf, ~buffers[rrand(0, (~buffers.size - 1))], \trig, 1]);
+
+(
+~blah = { | test|
+	var num;
+
+	num = rrand(0, test.size - 1);
+	Synth.new(\playM, [\amp, 0.5, \buf, ~buffers[num], \len, ~buffers[num].duration, \trig, 1]);
+
+};
+)
+
+~blah.value(~buffers);
 
 
 /////////
