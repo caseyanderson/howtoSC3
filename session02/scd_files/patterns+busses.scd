@@ -6,8 +6,9 @@ s.boot;
 
 (
 
-~window; ~b1; ~b2; ~b3; ~h1; ~h2; ~h3; ~s1; ~s2; ~s3; ~sfund;
+~window; ~b1; ~b2; ~b3; ~h1; ~h2; ~h3; ~s1; ~s2; ~s3; ~sfund; // set up global variables
 
+// make the control busses
 ~vol1 = Bus.control(s, 1).set(0.0);
 ~vol2 = Bus.control(s, 1).set(0.0);
 ~vol3 = Bus.control(s, 1).set(0.0);
@@ -20,9 +21,10 @@ s.boot;
 // the GUI
 
 (
-
+// make the gui window
 ~window = Window.new("noon to midnight", Rect(0,0,600,640))
     .onClose_({
+	// these are performed when the window is closed (its like a shutdown thing)
 	~sinPatternPlayer.stop;
 	~formantPatternPlayer1.stop;
 	~formantPatternPlayer2.stop;
@@ -30,14 +32,14 @@ s.boot;
 });
 
 
-// instrument 1
-
+// instrument 1 (every instrument has the same control structure)
+// an on/off button
 ~b1 = Button(~window, Rect( 10, 10, 50, 50))
-		.states_([
+		.states_([ // there are two states for this button
 			["OFF", Color.white, Color.black],
 			["ON", Color.white, Color.red]
 		])
-
+// the action to perform when the button value is or is not 1 (pressed)
 .action_({ arg butt;
 	if( butt.value == 1,
 		{ ~sinPatternPlayer = ~sinPattern.play;
@@ -49,18 +51,19 @@ s.boot;
 	);
 });
 
+// a number box, this is used like a label here
 ~h1 = NumberBox(~window, Rect(10, 10 + 60, 50, 50));
 ~h1.align = \center;
 ~h1.value = 0;
 
+// a volume slider
 ~s1 = Slider.new(~window, Rect(65, 10, 50, 200))
 .action_({ |slider|
-	~vol1.set(slider.value);
+	~vol1.set(slider.value); // connect the slider position to the vol1 control bus...i.e. this controls volume
 });
 
 
-// instrument 2
-
+// instrument 2, note the repetition of the above here
 ~b2 = Button(~window, Rect( 10, 220, 50, 50))
 		.states_([
 			["OFF", Color.white, Color.black],
@@ -88,8 +91,7 @@ s.boot;
 });
 
 
-// instrument 3
-
+// instrument 3, again, this is basically the same
 ~b3 = Button(~window, Rect( 10, 430, 50, 50))
 		.states_([
 			["OFF", Color.white, Color.black],
@@ -116,8 +118,7 @@ s.boot;
 	~vol3.set(slider.value);
 });
 
-// sets fundamental
-
+// sets fundamental, i.e. all synths will play a partial of the same fundamental
 ~sfund = Slider.new(~window, Rect(365, 10, 50, 200))
 .action_({ |slider|
 	var map;
@@ -160,19 +161,20 @@ SynthDef(\formant, { | amp = 0.0, end = 2, freq = 300, len = 2, max = 0.7, maxde
 )
 
 // the patterns
+// these control the synths
 
 (
 ~sinPattern = Pbind(
-	\instrument, \sin,
-	\freq, ~fund.asMap,
-	\start, Prand([2,3,5,7,11,13], inf),
-	\end, Prand([2,3,5,7,11,13], inf),
-	\len, Pwhite(20, 50, inf),
-	\amp, ~vol1.asMap,
-	\dur, (Pkey(\len) + 2)
+	\instrument, \sin, // the synth that the pattern plays
+	\freq, ~fund.asMap, // connect this parameter to the value of ~fund control bus
+	\start, Prand([2,3,5,7,11,13], inf), // randomly pick a number from the array
+	\end, Prand([2,3,5,7,11,13], inf), // basically the same
+	\len, Pwhite(20, 50, inf), // randomly pick a number between 20 and 50
+	\amp, ~vol1.asMap, // connect the amp parameter to the vol1 control bus
+	\dur, (Pkey(\len) + 2) // the duration of one pass through the pattern, here with two extra seconds so there will always be two seconds between playback instances
 );
 
-
+// the next two patterns are basically the same
 ~formantPattern1 = Pbind(
 	\instrument, \formant,
 	\freq, ~fund.asMap,

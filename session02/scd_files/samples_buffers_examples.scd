@@ -9,13 +9,13 @@ s.boot;
 SynthDef(\playS, { | amp = 0.0, buf, rate = 1, trig = 0 |
 	var env, sig;
 
-	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig,  doneAction: 2 );
-	sig = PlayBuf.ar(2, buf, rate, loop: 1) * env; // num channels needs to match Buffer (and HAS to be hard coded)
+	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig );
+	sig = PlayBuf.ar(2, buf, rate, loop: 0, doneAction: 2) * env; // num channels needs to match Buffer (and HAS to be hard coded)
 	Out.ar(0, sig * amp);
 }).add;
 )
 
-Synth(\playS, [\amp, 0.5, \buf, ~buf1, \trig, 1 ]); // play once, dont loop
+Synth(\playS, [\amp, 0.9, \buf, ~buf1, \trig, 1 ]); // play once, dont loop
 Synth(\playS, [\amp, 0.5, \buf, ~buf1, \rate, 0.5, \trig, 1 ]); // play once half speed
 
 
@@ -55,8 +55,8 @@ Synth(\playS, [\amp, 0.5, \buf, ~buf1, \rate, 0.5, \trig, 1 ]); // play once hal
 SynthDef(\playM, { | amp = 0.0, buf, trig = 0 |
 	var env, sig;
 
-	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig,  doneAction: 2 );
-	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), loop: 0) * env;
+	env = EnvGen.kr( Env.asr( 0.0, 0.95, 0.05), trig );
+	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), loop: 0, doneAction: 2) * env;
 	Out.ar(0, Pan2.ar(sig * amp, 0.0));
 }).add;
 
