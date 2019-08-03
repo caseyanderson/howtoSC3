@@ -164,8 +164,6 @@ SynthDef(\formant, { | amp = 0.0, end = 2, freq = 300, len = 2, max = 0.7, maxde
 	sig = Formant.ar(freq * DelayN.kr(line, maxdelay, Rand(min, max)), DelayN.kr(line, maxdelay, Rand(min, max)), DelayN.kr(line, maxdelay, Rand(min, max)), amp) * env;
 	clean = HPF.ar(sig, 50); // should probably be a compressor
 	Out.ar( 0, Pan2.ar( clean ) );
-
-	// Out.ar( [0,1], clean );
 }).add;
 
 
