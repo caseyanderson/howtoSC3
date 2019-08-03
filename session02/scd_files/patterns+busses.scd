@@ -1,13 +1,3 @@
-//noon to midnight, LAPhil, Nov 18th
-
-/*
-
-TODO:
-
-Add noise synths to be played via Pseq and trigged over network
-
-*/
-
 s.options.memSize = 2097152;
 s.boot;
 
