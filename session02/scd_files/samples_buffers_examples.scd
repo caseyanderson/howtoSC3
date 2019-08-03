@@ -18,6 +18,7 @@ SynthDef(\playS, { | amp = 0.0, buf, rate = 1, trig = 0 |
 Synth(\playS, [\amp, 0.5, \buf, ~buf1, \trig, 1 ]); // play once, dont loop
 Synth(\playS, [\amp, 0.5, \buf, ~buf1, \rate, 0.5, \trig, 1 ]); // play once half speed
 
+
 /////////
 // load every sample in a directory (folder) into its own Buffer, make an Array called ~buffers to store each Buffer
 
@@ -62,14 +63,15 @@ SynthDef(\playM, { | amp = 0.0, buf, trig = 0 |
 // randomly select a sample to play from ~buffers
 Synth.new(\playM, [\amp, 0.5, \buf, ~buffers[rrand(0, (~buffers.size - 1))], \trig, 1]);
 
+
 /////////
 // randomly play samples in random order for their entire duration
 
-SynthDef(\playM, { | amp = 0.0, buf, len, loop = 0, rate = 1, trig = 1 |
+SynthDef(\playM, { | amp = 0.0, buf, len, loop = 0, trig = 1 |
 	var env, sig;
 
 	env = EnvGen.kr( Env.linen( 0.0, len, 0.01), trig,  doneAction: 2 );
-	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), rate: 1, loop: 0) * env;
+	sig = PlayBuf.ar(1, buf, BufRateScale.kr( buf ), loop: 0) * env;
 	Out.ar(0, Pan2.ar(sig * amp, 0.0));
 }).add;
 
