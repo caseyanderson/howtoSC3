@@ -1,7 +1,7 @@
 
 ## Download
 
-Go [here](https://supercollider.github.io/download.html) to download the `Current Version` of SuperCollider 3 (3.10.2 as of this writing). Once your download is complete, go ahead and install.
+Go [here](https://supercollider.github.io/download.html) to download the `Current Version` of SuperCollider 3 (3.10.3 as of this writing). Once your download is complete, go ahead and install.
 
 ## About
 

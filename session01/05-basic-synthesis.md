@@ -11,7 +11,7 @@ and then proceed through the rest of this lab.
 
 ### Additive Synthesis
 
-`Additive Synthesis` is the technique of combining multiple sounds to create more complexity. We went over a simple example as part of [this](http://creativetech.caseyanderson.com/2018/01/16/SynthDefs-Envelopes/) lab on Tuesday:
+`Additive Synthesis` is the technique of combining (i.e. adding) multiple sounds to create more complexity:
 
 ```python3
 { SinOsc.ar( 440, 0.0, 0.5 ) + PinkNoise.ar( 0.1 ) + Crackle.ar( 1.5, 0.4 ) + LFTri.ar( 200, 0.0, 0.2 )}.play;
@@ -33,7 +33,7 @@ SC has a nice shortcut for the above, so one can rewrite it as follows:
 {SinOsc.ar([800,880],0,0.1)}.scope;
 ```
 
-This takes advantage of a cool feature of Supercollider: [Multichannel Expansion](http://doc.sccode.org/Guides/Multichannel-Expansion.html). When the Server sees an argument with an [Array](http://doc.sccode.org/Classes/Array.html) as input it duplicates the `Synth` for every item in that `Array`, explaining why the two previous examples are effectively the same (though one requires less typing!).
+This takes advantage of a cool feature of Supercollider: [Multichannel Expansion](http://doc.sccode.org/Guides/Multichannel-Expansion.html). When the `Server` sees an argument with an [Array](http://doc.sccode.org/Classes/Array.html) as input it duplicates the `Synth` for every item in that `Array`, explaining why the two previous examples are effectively the same (though one requires less typing!).
 
 
 ### Mix
