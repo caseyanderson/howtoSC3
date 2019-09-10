@@ -1,5 +1,9 @@
 ## GUI
 
+SC has a pretty powerful set of Graphical User Interface tools. The most basic, and most important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`) elements (hereafter referred to as `Views`).
+
+To start, below is a simple test synth (`\sin`) we will use throughout this discussion. Add `\sin` to the library and then create an instance of it stored at the global variable `x` (`~x`):
+
 ```python3
 s.boot;
 
@@ -20,23 +24,34 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 // run the synth
 
 ~x = Synth.new(\sin, [\amp, 0.0, \trig, 0, \freq, 220]);
+```
 
+To being we need to create an instance of `Window`, a task which typically requires the following:
 
-(
+1. name the `Window`
+2. give it dimensions (typically with `Rect`)
+3. save it to a global variable (`~window` so we can reference it elsewhere)
 
-// The GUI
+*For Example*
+`~window = Window.new("mixer", Rect(0, 0, 500, 300));`
 
-~window = Window.new("mixer", Rect(0, 0, 500, 300));
+In the above we define a `Window` named "mixer" and, using `Rect`, gave it a dimension of `500x300` pixels.
 
+Next let's add a label to our `GUI`:
 
-// label
-
+```python3
 ~label1 = StaticText(~window, Rect( 10, 10, 100, 50));
 ~label1.align = \center;
 ~label1.background = Color.gray(0.15);
 ~label1.stringColor = Color.white;
 ~label1.string = "vol";
+```
 
+In the above we created a `StaticText` object, which is a view capable of displaying non-editable text. Note that I have stored it to the global variable `~label1`, which provides a hint at its function to anyone reading the code. After creating an instance of `StaticText` we execute four methods on that instance (`~label1`) in an effort to style the label in the manner we want. The function of each `method` is pretty self-explanatory, but if you would like to read the formal SC explanation for each I encourage you to look up `StaticText` in the SC docs [here](http://doc.sccode.org/Classes/StaticText.html).
+
+We still cannot see our `~window`, though. In order to create the `~window`, and to see any changes made to it, simple execute: `~window.front;`. Do so now and you should see a window that looks like this:
+
+<br/><img src="/assets/mixer-window.png">
 
 // volume control
 
@@ -72,4 +87,3 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 ~window.front;
 
 )
-```
