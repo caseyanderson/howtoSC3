@@ -26,7 +26,7 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 ~x = Synth.new(\sin, [\amp, 0.0, \trig, 0, \freq, 220]);
 ```
 
-To being we need to create an instance of `Window`, a task which typically requires the following:
+To begin we need to create an instance of `Window`, a task which typically requires the following:
 
 1. name the `Window`
 2. give it dimensions (typically with `Rect`)
@@ -53,13 +53,25 @@ We still cannot see our `~window`, though. In order to create the `~window`, and
 
 ![](/assets/mixer-window.png)
 
-// volume control
+Typically one uses a `GUI` to inform users regarding possible interactions. Let's add volume (or amplitude) with the `Knob` view by running the following:
 
+```python3
 ~knob1 = Knob.new(~window, Rect(10, 65, 100, 100));
 ~knob1.action_{ |knob|
-	~numBox1.value_(knob.value); // gui updates numberbox
 	~x.set(\amp, knob.value);
 };
+```
+
+`~window` should now look something like this:
+
+![](assets/mixer-window-volume.png)
+
+In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. Without this last step we would not know what value the knob has. Try moving the knob around and viewing its value / position in the post window.
+
+
+
+
+connect the `GUI` view `knob` to our `SynthDef`
 
 
 // volume level numerical display
