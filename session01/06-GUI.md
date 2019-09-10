@@ -64,7 +64,7 @@ Typically one uses a `GUI` to inform users regarding possible interactions. Let'
 
 `~window` should now look something like this:
 
-![](assets/mixer-window-volume.png)
+![](/assets/mixer-window-volume.png)
 
 In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. Without this last step we would not know what value the knob has. Try moving the knob around and viewing its value / position in the post window.
 
