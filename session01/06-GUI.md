@@ -1,6 +1,6 @@
 ## GUI
 
-SC has a pretty powerful set of Graphical User Interface tools. The most basic, and most important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`).
+SC has a pretty powerful set of Graphical User Interface tools. The most basic, and important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`).
 
 To start, below is a simple test synth (`\sin`) we will use throughout this discussion. Add `\sin` to the library and then create an instance of it stored at the global variable `x` (`~x`):
 
@@ -33,6 +33,7 @@ To begin we need to create an instance of `Window`, a task which typically requi
 3. save it to a global variable (`~window` so we can reference it elsewhere)
 
 *For Example*
+
 `~window = Window.new("mixer", Rect(0, 0, 500, 300));`
 
 In the above we define a `Window` named "mixer" and, using `Rect`, gave it a dimension of `500x300` pixels.
@@ -47,9 +48,9 @@ Next let's add a label to our `GUI`, follow along:
 ~label1.string = "vol";
 ```
 
-In the above we created a `StaticText` object, which is a view capable of displaying non-editable text. Note that I have stored it to the global variable `~label1`, which provides a hint at its function to anyone reading the code. After creating an instance of `StaticText` we execute four methods on that instance (`~label1`) in an effort to style the label in the manner we want. The function of each `method` is pretty self-explanatory, but if you would like to read the formal SC explanation for each I encourage you to look up `StaticText` in the SC docs [here](http://doc.sccode.org/Classes/StaticText.html).
+In the above we created a `StaticText` object, which is a view capable of displaying non-editable text. Note that I have stored it to the global variable `~label1`, which provides a hint at its function to anyone reading the code. After creating an instance of `StaticText` we execute four methods on that instance (`~label1`) in an effort to style the label in the manner we want. The function of each `method` is self-explanatory, but if you would like to read the formal SC explanation for each I encourage you to look up `StaticText` in the SC docs [here](http://doc.sccode.org/Classes/StaticText.html).
 
-We still cannot see our `~window`, though. In order to create the `~window`, and to see any changes made to it, simple execute: `~window.front;`. Do so now and you should see a window that looks like this:
+We still cannot see our `~window`, though. In order to create the `~window` simply execute `~window.front;`. Do so now and you should see a window that looks like this:
 
 ![](/assets/mixer-window.png)
 
@@ -67,9 +68,9 @@ Typically one uses a `GUI` to inform users regarding possible interactions. Let'
 
 ![](/assets/mixer-window-volume.png)
 
-In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. `.action` typically connects a view with some other part of SC, like the `post` window or an active `Synth`. Without `.action` we would not know what value the knob has. Try moving the knob around and viewing its value/position in the `post` window.
+In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. `.action` typically connects a view with some other part of SC, like the `post` window or an active `Synth`. Without `.action` we would not know what value the `Knob` has. Try moving the knob around and viewing its value/position in the `post` window.
 
-Okay so here is a bit of an annoying aspect of SC: if we print `GUI` values to the `post` window we are going to have to click back and forth between moving the `Knob` and checking its value in the `post`, as clicking on the `~window` makes the `post` window disappear. While this is annoying, we can use the `NumberBox` view as a work-around. Follow along:
+Okay so here is a bit of an annoying aspect of SC: if we print `GUI` values to the `post` window we are going to have to click back and forth between moving the `Knob` and checking its value in the `post`, as clicking on `~window` makes the `post` window disappear. While this is annoying we can use the `NumberBox` view as a work-around. Follow along:
 
 ```python3
 
