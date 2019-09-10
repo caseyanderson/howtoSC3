@@ -68,8 +68,28 @@ Typically one uses a `GUI` to inform users regarding possible interactions. Let'
 
 In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. Without this last step we would not know what value the knob has. Try moving the knob around and viewing its value / position in the post window.
 
+Okay so here is a bit of an annoying aspect of SC: if we print `GUI` values to the post window we are going to have to click back and forth between moving the `Knob` and checking its value in the `post`, as clicking on the a `~window` makes the `post` window disappear. While this is annoying, we can use the `NumberBox` view to work-around this. Follow along:
 
+```python3
 
+// first we update our knob code
+
+~knob1 = Knob.new(~window, Rect(10, 65, 100, 100));
+~knob1.action_{ |knob|
+	~numBox1.value_(knob.value);
+};
+
+// volume level numerical display
+
+~numBox1 = NumberBox(~window, Rect(10, 170, 100, 50));
+~numBox1.align = \center;
+~numBox1.clipLo = 0.0;
+~numBox1.clipHi = 1.0;
+```
+
+Running the code above updates our `~window`, which should now look like:
+
+![](/assets/mixer-window-volume-numbox.png)
 
 connect the `GUI` view `knob` to our `SynthDef`
 
