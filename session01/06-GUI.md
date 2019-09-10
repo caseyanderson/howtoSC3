@@ -51,7 +51,7 @@ In the above we created a `StaticText` object, which is a view capable of displa
 
 We still cannot see our `~window`, though. In order to create the `~window`, and to see any changes made to it, simple execute: `~window.front;`. Do so now and you should see a window that looks like this:
 
-<br/><img src="/assets/mixer-window.png">
+![](/assets/mixer-window.png)
 
 // volume control
 
