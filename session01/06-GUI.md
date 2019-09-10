@@ -129,6 +129,6 @@ connect the `GUI` view `knob` to our `SynthDef`
 
 Which should result in the following change to `~window`:
 
-![](mixer-window-volume-numbox-trig-sin.png)
+![](/assets/mixer-window-volume-numbox-trig-sin.png)
 
 Try turning the Synth on/off and changing its volume by interacting with the `GUI`.
