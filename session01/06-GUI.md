@@ -58,7 +58,7 @@ Typically one uses a `GUI` to inform users regarding possible interactions. Let'
 ```python3
 ~knob1 = Knob.new(~window, Rect(10, 65, 100, 100));
 ~knob1.action_{ |knob|
-	~x.set(\amp, knob.value);
+	knob.value.postln;
 };
 ```
 
