@@ -1,6 +1,6 @@
 ## GUI
 
-SC has a pretty powerful set of Graphical User Interface tools. The most basic, and most important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`) elements (hereafter referred to as `Views`).
+SC has a pretty powerful set of Graphical User Interface tools. The most basic, and most important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`).
 
 To start, below is a simple test synth (`\sin`) we will use throughout this discussion. Add `\sin` to the library and then create an instance of it stored at the global variable `x` (`~x`):
 
@@ -29,7 +29,7 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 To begin we need to create an instance of `Window`, a task which typically requires the following:
 
 1. name the `Window`
-2. give it dimensions (typically with `Rect`)
+2. give it a location and size (typically with `Rect`)
 3. save it to a global variable (`~window` so we can reference it elsewhere)
 
 *For Example*
@@ -37,7 +37,7 @@ To begin we need to create an instance of `Window`, a task which typically requi
 
 In the above we define a `Window` named "mixer" and, using `Rect`, gave it a dimension of `500x300` pixels.
 
-Next let's add a label to our `GUI`:
+Next let's add a label to our `GUI`, follow along:
 
 ```python3
 ~label1 = StaticText(~window, Rect( 10, 10, 100, 50));
@@ -53,6 +53,7 @@ We still cannot see our `~window`, though. In order to create the `~window`, and
 
 ![](/assets/mixer-window.png)
 
+
 Typically one uses a `GUI` to inform users regarding possible interactions. Let's add volume (or amplitude) with the `Knob` view by running the following:
 
 ```python3
@@ -66,9 +67,9 @@ Typically one uses a `GUI` to inform users regarding possible interactions. Let'
 
 ![](/assets/mixer-window-volume.png)
 
-In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. Without this last step we would not know what value the knob has. Try moving the knob around and viewing its value / position in the post window.
+In the code above we create a new instance of `Knob` (with `Knob.new`), assign it to our `GUI` `~window`, and use `Rect` to give it both a location and size in `~window`. We also use the method `.action` to print the value of the `Knob` to the `post` window. `.action` typically connects a view with some other part of SC, like the `post` window or an active `Synth`. Without `.action` we would not know what value the knob has. Try moving the knob around and viewing its value/position in the `post` window.
 
-Okay so here is a bit of an annoying aspect of SC: if we print `GUI` values to the post window we are going to have to click back and forth between moving the `Knob` and checking its value in the `post`, as clicking on the a `~window` makes the `post` window disappear. While this is annoying, we can use the `NumberBox` view to work-around this. Follow along:
+Okay so here is a bit of an annoying aspect of SC: if we print `GUI` values to the `post` window we are going to have to click back and forth between moving the `Knob` and checking its value in the `post`, as clicking on the `~window` makes the `post` window disappear. While this is annoying, we can use the `NumberBox` view as a work-around. Follow along:
 
 ```python3
 
@@ -91,7 +92,19 @@ Running the code above updates our `~window`, which should now look like:
 
 ![](/assets/mixer-window-volume-numbox.png)
 
+So now we can see the numerical value of the `Knob` on the `GUI`, hooray!
+
+We still arent actually controllng our running Synth, though. Run the code below to connect the `Knob` to `\sin`, create and add a toggle button (using the `Button` view to `gate` our Synth on/off), and connect the `Button` to our Synth:
 connect the `GUI` view `knob` to our `SynthDef`
+
+```python 3
+// volume control
+
+~knob1 = Knob.new(~window, Rect(10, 65, 100, 100));
+~knob1.action_{ |knob|
+	~x.set(\amp, knob.value);
+	~numBox1.value_(knob.value); // gui updates numberbox
+};
 
 
 // volume level numerical display
@@ -112,10 +125,10 @@ connect the `GUI` view `knob` to our `SynthDef`
 .action_({ arg butt;
 	~x.set(\trig, butt.value);
 });
+```
 
+Which should result in the following change to `~window`:
 
-// bring window to front
+![](mixer-window-volume-numbox-trig-sin.png)
 
-~window.front;
-
-)
+Try turning the Synth on/off and changing its volume by interacting with the `GUI`.
