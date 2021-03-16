@@ -135,7 +135,7 @@ x.add("hello");
 x;
 ```
 
-Here is a super lazy way to use a List to end up with a fixed value Array, btw
+Here is a super lazy way to use a `List` to end up with a fixed value `Array`, btw
 
 ```python3
 x = List.new();
@@ -148,3 +148,17 @@ y; // here's our array!
 
 
 # Loops
+
+Though SuperCollider has all the standard loops one would expect from a programming language, I want to highlight `do` loops here
+
+*For Exapmle*
+
+```python3
+5.do({ arg item; item.postln }); // iterates from zero to four
+```
+
+And also
+
+```python3
+x.do({ arg item; item.postln }); // iterates from zero to four
+```
