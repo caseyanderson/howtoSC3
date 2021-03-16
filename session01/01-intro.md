@@ -160,5 +160,5 @@ Though SuperCollider has all the standard loops one would expect from a programm
 And also
 
 ```python3
-x.do({ arg item; item.postln }); // iterates from zero to four
+x.do({ arg item; item.postln }); // prints each item from above
 ```
