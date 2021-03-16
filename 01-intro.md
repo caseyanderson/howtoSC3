@@ -151,7 +151,7 @@ y; // here's our array!
 
 Though SuperCollider has all the standard loops one would expect from a programming language, I want to highlight `do` loops here
 
-*For Exapmle*
+*For Example*
 
 ```python3
 5.do({ arg item; item.postln }); // iterates from zero to four
@@ -161,4 +161,39 @@ And also
 
 ```python3
 x.do({ arg item; item.postln }); // prints each item from above
+```
+
+And here is a little example with sound
+
+```python3
+/*
+
+generate a random size list of random numbers,
+make a sine tone for each of those numbers,
+calculate frequency of tone from random number values
+
+*/
+
+(
+var randomNum;
+
+x = List.new(); // a list object
+
+randomNum = rrand(2, 8); // get a random integer between 2 and 8
+
+randomNum.do({ |item|
+  x.add(0.10.rand); // random floats between 0 and 10
+});
+
+y = x.free.array; // get rid of the List object
+
+y.do({ |item, test|
+  var amp = 0.1, freq = 440;
+
+  freq = freq + (freq * item);
+  //  freq.postln;
+  {SinOsc.ar( freq + (freq * item), 0.0, amp)}.play;
+
+});
+)
 ```
