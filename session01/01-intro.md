@@ -5,7 +5,7 @@ Go [here](https://supercollider.github.io/download.html) to download the `Curren
 
 ## About
 
-Supercollider is made up of two applications: a language interpreter and one or more synthesis servers. All communication between the `lang` (short for language) and the `server` is done via [OpenSoundControl](http://opensoundcontrol.org/).
+Supercollider is actually two applications: a language interpreter and one (or more) synthesis (we often say synth for short) servers. All communication between the `lang` (short for language) and the `server` is done via [OpenSoundControl](http://opensoundcontrol.org/).
 
 ## Starting the server
 
@@ -50,7 +50,7 @@ s.quit;
 
 ## Functions
 
-Similar to most other programming language, Functions in SC are denoted by curly brackets. Anything between `{ }` is a function.
+Functions in SC are denoted by curly brackets. Anything between `{ }` is a function.
 
 *For Example*
 
@@ -101,3 +101,50 @@ evaluate the function
 ```python3
 f.value(2, 3);
 ```
+
+
+## Arrays, Lists, and Dictionaries
+
+Data can be collected in `Arrays`, which have a fixed maximum size
+
+*For Example*
+
+```python3
+x = Array.fill(5, {arg i;
+  i.rand});
+```
+
+If we try to add a *sixth* item we will get an error, as the `Array` at `x` only has 5 positions
+
+*For Example*
+
+```python3
+x.put(5, "hello");
+```
+
+SuperCollider has a separate `Class` for cases in which a collection must be dynamically expanded
+
+*For Example*
+
+```python3
+x = List.fill(5, {arg i;
+  i.rand});
+
+x.add("hello");
+
+x;
+```
+
+Here is a super lazy way to use a List to end up with a fixed value Array, btw
+
+```python3
+x = List.new();
+x.add(0.10.rand); // run this a bunch of times
+
+y = x.free.array;
+
+y; // here's our array!
+```
+
+
+# Loops
