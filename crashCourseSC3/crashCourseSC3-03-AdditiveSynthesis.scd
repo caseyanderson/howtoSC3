@@ -74,7 +74,11 @@ x = Synth( \sin, [ \freq, 400, \amp, 0.5 ]);
 x.set(\trig, 1); // turn on
 x.set(\trig, 0); // turn off
 
-/* Follow along as I show you how to
+/*
+
+Follow along as I demo how to
 
 1. connect the GUI to the Synth
-2. Use the Mix UGen to experiment with Additive Synthesis, or the technique of using simpler sounds together to create a more complex sound
+2. Use the Mix UGen to experiment with Additive Synthesis, or the technique of using multiple simpler sounds together to create a more complex sound
+
+*/
