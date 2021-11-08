@@ -188,7 +188,6 @@ Another example that uses Mouse location (both x and y axes) for frequency and a
 
 <br/>
 
-
 ## Controlling Synths
 
 One can declare arguments for a function in one of two manners:
@@ -197,7 +196,6 @@ One can declare arguments for a function in one of two manners:
 2. `|nameofargument1, nameofargument2|`
 
 While this may sound esoteric, it's important to understand that many aspects of Supercollider, like `arguments`, allow a programmer multiple stylistic options in terms of how they write their code.
-
 
 ### Arguments in UGens
 
@@ -208,7 +206,6 @@ There are three strategic opportunities provided by deliberate use of `arguments
 3. arguments reserve a way to change a particular part of a `UGen` once it is running (example: I start my `Sine` tone playing a frequency of 440Hz but will change it to 200Hz later)
 
 In general I think of `arguments` as things I need to control or change in `UGens` when I am using them.
-
 
 ### Relevant Argument Names
 
@@ -231,7 +228,6 @@ to:
 ```
 
 Note: I prefer to use `amp` instead of something like `mul` or `multiply`.
-
 
 ### .set
 
@@ -313,3 +309,5 @@ The primary difference between the `sustaining` and `deterministic` synth can be
 `.linen` creates Envelopes in a trapezoidal shape. In order to calculate this shape, `.linen` needs information regarding the duration, in seconds, of each segment of its shape. One commonly refers to each segment of the shape as `attack time` (segment 1), `sustain time` (segment 2), and `release time` (segment 3). In other words, if we want our `Synth` to play for 10 seconds we would want to set each of our segments such that the total time adds up to `10`. In the above Synth we accomplish this by using super tiny numbers for `attack` and `release` and setting `sus` to 10.
 
 The benefit here is that the envelope (and associated `Synth`) will clean itself up after it is `done` (this is set by `doneAction: 2` in the `SynthDef`), so we could run the `Synth` line repeatedly to create, for example, 5 instances of `\sin` each with a total duration of (approximately) 10 seconds. Note: I reuse the above general structure for all deterministic sounds unless something special/unusual is needed.
+
+
