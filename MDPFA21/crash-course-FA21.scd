@@ -191,32 +191,7 @@ Another example that uses Mouse location (both x and y axes) for frequency and a
 
 ## Controlling Synths
 
-`Arguments` allow one to pass information to a function when the function is evaluated.
-
-*For Example*
-```python3
-f = { arg a, b;
-    a - b;
-};
-```
-
-In the above function we declare two `arguments`: `a` and `b`. This enables us to pass in two values every time we evaluate the function like so:
-
-```python3
-f.value(3,2);
-```
-
-We can run the above line repeatedly with different values and expect similar results: the first argument will be subtracted by the second one.
-
-There is a syntax shortcut for writing arguments which we can use to rewrite our function above to:
-
-```python3
-f = { | a, b|
-    a - b;
-};
-```
-
-So one can declare arguments for a function in one of two manners:
+One can declare arguments for a function in one of two manners:
 
 1. `arg nameofargument1, nameofargument2;`
 2. `|nameofargument1, nameofargument2|`
