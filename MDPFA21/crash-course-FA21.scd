@@ -310,7 +310,7 @@ The primary difference between the `sustaining` and `deterministic` synth can be
 
 The benefit here is that the envelope (and associated `Synth`) will clean itself up after it is `done` (this is set by `doneAction: 2` in the `SynthDef`), so we could run the `Synth` line repeatedly to create, for example, 5 instances of `\sin` each with a total duration of (approximately) 10 seconds. Note: I reuse the above general structure for all deterministic sounds unless something special/unusual is needed.
 
-## GUI
+## GUI Intro (Sustaining Synth)
 
 SC has a pretty powerful set of Graphical User Interface tools. The most basic, and important, element is `Window`, which a programmer can use to define a rectangular area on the screen capable of displaying other `GUI` elements (hereafter referred to as `Views`).
 
@@ -410,7 +410,7 @@ So now we can see the numerical value of the `Knob` on the `GUI`, hooray!
 We still arent actually controllng our running Synth, though. Run the code below to connect the `Knob` to `\sin`, create and add a toggle button (using the `Button` view to `gate` our Synth on/off), and connect the `Button` to our Synth:
 connect the `GUI` view `knob` to our `SynthDef`
 
-```python 3
+```python3
 // volume control
 
 ~knob1 = Knob.new(~window, Rect(10, 65, 100, 100));
@@ -446,5 +446,12 @@ Which should result in the following change to `~window`:
 
 Try turning the Synth on/off and changing its volume by interacting with the `GUI`.
 
-## Example GUI
+<br/>
 
+## Sustaining & Deterministic GUI Example
+
+Below is an example GUI for two Synths: one sustaining, one deterministic. Note the deterministic Synth launches a new Synth with every press of the button and has **two knobs**.
+
+```python3
+
+```
