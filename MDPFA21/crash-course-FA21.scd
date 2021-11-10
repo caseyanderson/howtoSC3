@@ -268,7 +268,7 @@ What follows are two versions of the same instrument: one that sustains until re
 ```python3
 SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 	var env, sig, finalSig;
-	env = EnvGen.kr( Env.asr( 0.001, 0.9, 0.001 ), trig, doneAction: 0 );
+	env = EnvGen.kr( Env.adsr( 0.01, 0.03, 0.9, 0.001 ), trig, doneAction: 0 );
 	sig = SinOsc.ar( freq, 0.0, amp );
 	finalSig = sig * env * 0.6;
 	Out.ar( out, Pan2.ar(finalSig) );
@@ -293,7 +293,7 @@ To hear the `\sin` we need to create and play an instance of it, which we accomp
 ```python3
 SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, sus = 1, trig = 0 |
 	var env, sig, finalSig;
-	env = EnvGen.kr( Env.adsr( 0.01, 0.03, sus, 0.01 ), trig, doneAction: 2 );
+	env = EnvGen.kr( Env.linen( 0.01, sus, 0.01 ), trig, doneAction: 2 );
 	sig = SinOsc.ar( freq, 0.0, amp );
 	finalSig = sig * env * 0.6;
 	Out.ar( out, Pan2.ar(finalSig) );
