@@ -453,5 +453,134 @@ Try turning the Synth on/off and changing its volume by interacting with the `GU
 Below is an example GUI for two Synths: one sustaining, one deterministic. Note the deterministic Synth launches a new Synth with every press of the button and has **two knobs**.
 
 ```python3
+s.boot;
 
+// two test synth
+
+(
+SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
+	var env, sig, finalSig;
+	env = EnvGen.kr( Env.asr( 0.001, 0.9, 0.001 ), trig, doneAction: 0 );
+	sig = SinOsc.ar( freq, 0.0, amp );
+	finalSig = sig * env * 0.6;
+	Out.ar( out, Pan2.ar(finalSig) );
+}).add;
+
+SynthDef( \pink, { | amp = 0.0, rq = 0.1, out = 0, sus = 1, trig = 1 |
+	var env, sig, filter, finalSig;
+	env = EnvGen.kr( Env.linen( 0.001, sus, 0.01), trig, doneAction: 2 );
+	sig = PinkNoise.ar( amp );
+	filter = BPF.ar(sig, Rand(200, 1000), rq, amp );
+	finalSig = filter * env;
+	Out.ar( out, Pan2.ar(finalSig) );
+}).add;
+
+// deterministic controls
+~vol2 = Bus.control(s, 1).set(0.0);
+~sus2 = Bus.control(s, 1).set(0.0);
+
+)
+
+
+// run the sustaining synth
+~x = Synth(\sin, [\amp, 0.0, \trig, 0, \freq, 220]);
+
+// GUI
+(
+~window = Window.new("mixer", Rect(0, 0, 500, 300));
+
+///// sustaining synth!
+// synth 1
+~labelS = StaticText(~window, Rect( 10, 10, 100, 50));
+~labelS.align = \center;
+~labelS.background = Color.gray(0.15);
+~labelS.stringColor = Color.white;
+~labelS.string = "sustaining";
+
+// synth 1 volume control
+
+~knobS1 = Knob.new(~window, Rect(10, 65, 100, 100));
+~knobS1.action_{ |knob|
+	("sus synth vol is"+knob.value).postln;
+	~x.set(\amp, knob.value);
+	~numBoxS1.value_(knob.value); // gui updates numberbox
+};
+
+// volume level numerical display
+
+~numBoxS1 = NumberBox(~window, Rect(10, 170, 100, 50));
+~numBoxS1.align = \center;
+~numBoxS1.clipLo = 0.0;
+~numBoxS1.clipHi = 1.0;
+
+
+// turn the synth on
+
+~trig1 = Button(~window, Rect(10, 230, 100, 50))
+.states_([
+	["ON", Color.black, Color.gray],
+	["OFF", Color.black, Color.red]
+])
+.action_({ arg butt;
+	~x.set(\trig, butt.value);
+});
+
+///// deterministic synth!
+// synth 2
+~labelD = StaticText(~window, Rect( 120, 10, 210, 50));
+~labelD.align = \center;
+~labelD.background = Color.gray(0.15);
+~labelD.stringColor = Color.white;
+~labelD.string = "deterministic";
+
+// Deterministic Synth volume control
+
+~knobD1 = Knob.new(~window, Rect(120, 65, 100, 100));
+~knobD1.action_{ |knob|
+	("determ vol is"+knob.value).postln;
+	~vol2.set(knob.value);
+	~numBoxD1.value_(knob.value); // gui updates numberbox
+};
+
+
+// Deterministic Synth volume level numerical display
+
+~numBoxD1 = NumberBox(~window, Rect(120, 170, 100, 50));
+~numBoxD1.align = \center;
+~numBoxD1.clipLo = 0.0;
+~numBoxD1.clipHi = 1.0;
+
+
+// Deterministic Synth sus control
+
+~knobD2 = Knob.new(~window, Rect(230, 65, 100, 100));
+~knobD2.action_{ |knob|
+	var scaled = knob.value.linlin(0.0, 1.0, 0.0, 5.0);
+	("determ sus is"+scaled).postln;
+	~sus2.set(scaled);
+	~numBoxD2.value_(scaled); // gui updates numberbox*/
+};
+
+
+// Deterministic Synth sus numerical display
+
+~numBoxD2 = NumberBox(~window, Rect(230, 170, 100, 50));
+~numBoxD2.align = \center;
+~numBoxD2.clipLo = 0.0;
+~numBoxD2.clipHi = 5.0;
+
+// make a new Deterministic Synth
+
+~trig2 = Button(~window, Rect(120, 230, 210, 50))
+.states_([
+	["Launch!", Color.black, Color.gray],
+])
+.action_({ arg butt;
+	"another deterministic synth!".postln;
+	Synth.new(\pink, [\amp, ~vol2.asMap, \sus, ~sus2.asMap ]);
+});
+
+
+~window.front;
+)
 ```
