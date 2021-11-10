@@ -293,7 +293,7 @@ To hear the `\sin` we need to create and play an instance of it, which we accomp
 ```python3
 SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, sus = 1, trig = 0 |
 	var env, sig, finalSig;
-	env = EnvGen.kr( Env.linen( 0.001, sus, 0.001 ), trig, doneAction: 2 );
+	env = EnvGen.kr( Env.adsr( 0.01, 0.03, sus, 0.01 ), trig, doneAction: 2 );
 	sig = SinOsc.ar( freq, 0.0, amp );
 	finalSig = sig * env * 0.6;
 	Out.ar( out, Pan2.ar(finalSig) );
@@ -335,7 +335,7 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 
 // run the synth
 
-~x = Synth.new(\sin, [\amp, 0.0, \trig, 0, \freq, 220]);
+~x = Synth(\sin, [\amp, 0.0, \trig, 0, \freq, 220]);
 ```
 
 To begin we need to create an instance of `Window`, a task which typically requires the following:
