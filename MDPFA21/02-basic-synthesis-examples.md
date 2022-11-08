@@ -1,3 +1,5 @@
+## Reference
+[Tour of Ugens](http://doc.sccode.org/Guides/Tour_of_UGens.html)
 
 ## Basic Synthesis
 
