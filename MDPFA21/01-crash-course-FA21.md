@@ -5,7 +5,7 @@ Go [here](https://supercollider.github.io/download.html) to download the `Curren
 
 ## About
 
-Supercollider is actually two applications: a language interpreter and one (or more) synthesis (we often say synth for short) servers. All communication between the `lang` (short for language) and the `server` is done via [OpenSoundControl](http://opensoundcontrol.org/).
+Supercollider is made of two applications: a language interpreter and one (or more) synthesis servers. All communication between the `lang` (short for language) and the `server` is done via [OpenSoundControl](http://opensoundcontrol.org/).
 
 ## Starting the server
 
@@ -50,7 +50,7 @@ s.quit;
 
 ## Functions
 
-Functions in SC are denoted by curly brackets. Anything between `{ }` is a function.
+Functions in SC are denoted by curly brackets.
 
 *For Example*
 
@@ -59,7 +59,7 @@ f = { "hello world!".postln; };
 f.value;
 ```
 
-The first line of code stores the function at `f`, the second line returns the `value` (prints the message "hello world!" to the post window) associated with the function. `value` is short for `evaluate`. If one needs to **use** a function `.value` it.
+The first line of code stores the function at `f`, the second line returns the `value` (prints the message "hello world!" to the post window) associated with the function. `value` is short for `evaluate`. If one needs to **use** a function one uses `.value`.
 
 ## Arguments and Variables within Functions
 
@@ -178,9 +178,9 @@ s.scope;
 )
 ```
 
-In the above example, the `SinOsc` `UGen` is used both as control rate (to change the amplitude of the sounding `SinOsc`) and as audio rate (to actually play the `Sine` tone).
+In the above example, the `SinOsc` `UGen` is used both as control rate (to change the amplitude of the sounding `SinOsc`) and as audio rate (to play the `Sine` tone).
 
-Another example that uses Mouse location (both x and y axes) for frequency and amplitude:
+Another example that uses mouse location (both x and y axes) for frequency and amplitude:
 
 ```python3
 { SinOsc.ar(MouseY.kr( 50, 2000), 0.0, MouseX.kr( 0.0,1.0 )); }.scope;
@@ -241,6 +241,7 @@ we can control it using the `.set` method of `Synth`
 
 ```python3
 x.set(\freq, 200);
+x.set(\freq, 250);
 ```
 
 One can `.set` any `argument` declared as part of the function once the Synth is running, and can even make changes to multiple `arguments` simultaneously like so:
@@ -261,7 +262,7 @@ SC has an optimized way of taking in information about `UGens` and their interco
 
 More specifically, a `SynthDef` is the blueprint that defines a particular instance of a playing `Synth`.
 
-What follows are two versions of the same instrument: one that sustains until receiving an off message and another which has a specific duration.
+What follows are two versions of the same instrument: one that is **infinitely** sustaining and another expecting a **finite** duration.
 
 ### Sustaining Synth
 
@@ -274,14 +275,15 @@ SynthDef( \sin,	{ | amp = 0.0, freq = 440, out = 0, trig = 0 |
 	Out.ar( out, Pan2.ar(finalSig) );
 }).add;
 
+s.scope;
+
 x = Synth( \sin, [ \freq, 400, \amp, 0.5]);
 
 x.set(\trig, 1);
 x.set(\trig, 0 );
-s.scope;
 ```
 
-Here we define a `SynthDef` named `\sin` with a `sustaining` envelope, or an envelope that plays continuously until receiving an off message. Variables are used to organize the code into chunks: `env`, short for envelope, is the portion of our code that allows us to toggle the sound on and off; `sig`, short for signal, is the portion of our code that defines what the sound is.  Multiplying the `env` by the `sig` is what results in the "on/off" functionality above and occurs in the `finalSig` line.
+Here we define a `SynthDef` named `\sin` with a `sustaining` envelope, or an envelope that plays continuously until receiving an off message. Variables are used to organize the code into chunks: `env` (or envelope) allows us to toggle the sound on and off; `sig` (or signal) defines what the sound is.  Multiplying the `env` by the `sig` results in the "on/off" functionality above and occurs in `finalSig`.
 
 The resulting signal is written to a `Bus` (in this case, our speakers) in the `Out.ar` line, which also converts our `Mono` signal to `Stereo`. Note: I reuse the above general structure for all sustaining sounds unless something special/unusual is needed.
 
@@ -304,9 +306,9 @@ Synth( \sin, [ \amp, 0.5, \freq, 400, \trig, 1]);
 
 ```
 
-The primary difference between the `sustaining` and `deterministic` synth can be seen in the `env` lines. Here we use a different `Env`: `.linen`. Take a moment to compare the two `Env` (`.asr` and `.linen`) by highlighting `Env` and looking it up in the the Help `<Command+D>`.
+The primary difference between the `sustaining` and `deterministic` synth can be seen in the `env` lines. In the deterministic synth we use a different `Env.linen`. Take a moment to compare the two `Env` (`.asr` and `.linen`) by highlighting `Env` and looking it up in the the Help `<Command+D>`.
 
-`.linen` creates Envelopes in a trapezoidal shape. In order to calculate this shape, `.linen` needs information regarding the duration, in seconds, of each segment of its shape. One commonly refers to each segment of the shape as `attack time` (segment 1), `sustain time` (segment 2), and `release time` (segment 3). In other words, if we want our `Synth` to play for 10 seconds we would want to set each of our segments such that the total time adds up to `10`. In the above Synth we accomplish this by using super tiny numbers for `attack` and `release` and setting `sus` to 10.
+`.linen` creates Envelopes in a trapezoidal shape. In order to calculate this shape, `.linen` needs information regarding the duration, in seconds, of each segment of its shape. One commonly refers to each segment of the shape as `attack time` (segment 1), `sustain time` (segment 2), and `release time` (segment 3).
 
 The benefit here is that the envelope (and associated `Synth`) will clean itself up after it is `done` (this is set by `doneAction: 2` in the `SynthDef`), so we could run the `Synth` line repeatedly to create, for example, 5 instances of `\sin` each with a total duration of (approximately) 10 seconds. Note: I reuse the above general structure for all deterministic sounds unless something special/unusual is needed.
 
@@ -360,7 +362,7 @@ Next let's add a label to our `GUI`, follow along:
 ~label1.string = "vol";
 ```
 
-In the above we created a `StaticText` object, which is a view capable of displaying non-editable text. Note that I have stored it to the global variable `~label1`, which provides a hint at its function to anyone reading the code. After creating an instance of `StaticText` we execute four methods on that instance (`~label1`) in an effort to style the label in the manner we want. The function of each `method` is self-explanatory, but if you would like to read the formal SC explanation for each I encourage you to look up `StaticText` in the SC docs [here](http://doc.sccode.org/Classes/StaticText.html).
+In the above we created a `StaticText` object, which is a view capable of displaying non-editable text. Note that I have stored it to the global variable `~label1`. After creating an instance of `StaticText` we execute four methods on that instance (`~label1`) in an effort to style the label. The function of each `method` is self-explanatory, but if you would like to read the formal SC explanation for each I encourage you to look up `StaticText` in the SC docs [here](http://doc.sccode.org/Classes/StaticText.html).
 
 We still cannot see our `~window`, though. In order to create the `~window` simply execute `~window.front;`. Do so now and you should see a window that looks like this:
 
